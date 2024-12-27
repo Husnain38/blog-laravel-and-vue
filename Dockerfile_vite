@@ -1,0 +1,22 @@
+# Use the official Node.js image
+FROM node:18
+
+# Set the working directory
+WORKDIR /var/www
+
+# Copy the package.json and package-lock.json files
+COPY package.json package-lock.json ./
+
+# Install dependencies
+RUN npm install --legacy-peer-deps
+
+
+COPY start_script_vite.sh /scripts/start_script_vite.sh
+RUN ["chmod", "+x", "/scripts/start_script_vite.sh"]
+
+# Expose the port on which Vite will run
+EXPOSE 5173
+
+
+# Enabling Php-fpm service
+CMD ["/scripts/start_script_vite.sh"]
