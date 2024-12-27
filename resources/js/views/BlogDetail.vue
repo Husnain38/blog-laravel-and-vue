@@ -15,9 +15,11 @@
 
                         <!-- Display Comments -->
                         <div v-for="comment in blogPost.comments" :key="comment.id" class="comment">
+                            <h6>{{comment.user.name}}</h6>
                             <p>{{ comment.content }}</p>
+                            <small>{{comment.created_at}}</small>
                         </div>
-                        <div class="reply-form">
+                        <div class="reply-form" v-if="isAuthenticated">
                             <textarea v-model="newComment" placeholder="Write your reply..." rows="3" class="form-control"></textarea>
                             <button @click="submitReply(blogPost.id)" class="btn btn-primary mt-2 float-end">Save</button>
                         </div>
@@ -40,45 +42,45 @@ export default {
     data() {
         return {
             blogPost: {},
-            isAuthenticated: this.$store.isAuthenticated, // Track if the user is logged in
+            isAuthenticated: this.$store.getters.isAuthenticated, // Track if the user is logged in
             newComment : ""
         };
     },
     async mounted() {
-        this.$store.commit('SET_LOADING', true);
-        const response = await axios.get(`/api/blogs/${this.$route.params.id}`);
-        this.$store.commit('SET_LOADING', false);
-        this.blogPost = response.data.data;
 
-        this.isAuthenticated = this.$store.isAuthenticated !== null;
+        await this.getBlog();
+        this.isAuthenticated = this.$store.getters.isAuthenticated;
     },
     methods: {
 
-        // Submit a reply for a specific comment
-        async submitReply(commentId) {
-            const comment = this.blogPost.comments.find(c => c.id === commentId);
+        async getBlog() {
+            this.$store.commit('SET_LOADING', true);
+            const response = await axios.get(`/api/blogs/${this.$route.params.id}`);
+            this.$store.commit('SET_LOADING', false);
+            this.blogPost = response.data.data;
+        },
 
-            if (!comment.reply || comment.reply.trim() === '') {
+        async submitReply(postId) {
+            if (this.newComment.trim() === '') {
                 this.$toast.error('Please write a reply!');
                 return;
             }
-
             try {
+                this.$store.commit('SET_LOADING', true);
                 // Send the reply to the server
-                const response = await axios.post(`/api/comments/${commentId}/reply`, {
-                    content: comment.reply,
+                const response = await axios.post(`/api/blogs/${postId}/comment`, {
+                    comment: this.newComment,
                 }, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }
                 });
-
-                // Add the reply to the comment's replies array
-                comment.replies.push(response.data.data);
-                comment.reply = ''; // Clear the reply input
-                comment.showReplyForm = false; // Hide the reply form
+                await this.getBlog();
+                this.newComment = "";
             } catch (error) {
                 this.$toast.error('Error submitting the reply.');
+            }finally {
+                this.$store.commit('SET_LOADING', false);
             }
         },
     },

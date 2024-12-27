@@ -19,8 +19,8 @@ class AuthController extends Controller
     {
         try{
             $request->validate([
-                'name' => 'required',
-                'email' => 'required|email|unique:users',
+                'name'     => 'required',
+                'email'    => 'required|email|unique:users',
                 'password' => 'required'
             ]);
 
@@ -32,7 +32,7 @@ class AuthController extends Controller
 
             return response()->json([
                 'user'    => $user,
-                'token'    => $user->createToken('Personal Access Token')->accessToken,
+                'token'   => $user->createToken('Personal Access Token')->accessToken,
                 'message' => 'User created successfully'
             ], 201);
         } catch (Exception $exception){
@@ -63,12 +63,12 @@ class AuthController extends Controller
 
             return response()->json([
                 'token' => $token,
-                'user' => $user
+                'user'  => $user
             ]);
         } catch (Exception $exception){
             return response()->json([
                 'token'   => null,
-                'user'   => null,
+                'user'    => null,
                 'message' => $exception->getMessage()
             ], Response::HTTP_BAD_REQUEST);
         }

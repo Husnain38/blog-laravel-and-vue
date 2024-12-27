@@ -6,12 +6,12 @@ const BlogRoute = [
     {
         path: '/',
         component: BlogList,
-        meta: { auth: true },
+        meta: { auth: false },
     },
     {
         path: '/blog/:id',
         component: BlogDetail,
-        meta: { auth: true },
+        meta: { auth: false },
     },
     {
         path: '/add-post',

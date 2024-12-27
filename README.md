@@ -28,3 +28,7 @@
 - vite http://localhost:5173
 - redis http://localhost:6382
 - elastic search http://localhost:9200
+- 
+in this start_script.sh file
+php artisan passport:install
+these command only first time enable after comment this command

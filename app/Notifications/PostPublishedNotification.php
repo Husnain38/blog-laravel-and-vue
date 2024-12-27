@@ -10,7 +10,9 @@ use Illuminate\Notifications\Notification;
 class PostPublishedNotification extends Notification
 {
     use Queueable;
+
     public $post;
+
     /**
      * Create a new notification instance.
      */
@@ -34,7 +36,7 @@ class PostPublishedNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        return (new MailMessage)
+        return ( new MailMessage )
             ->subject('New Post Published')
             ->greeting('Hello, ' . $notifiable->name)
             ->line('A new post titled "' . $this->post->title . '" has been created.')
@@ -50,7 +52,7 @@ class PostPublishedNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'post_id' => $this->post->id,
+            'post_id'    => $this->post->id,
             'post_title' => $this->post->title,
         ];
     }

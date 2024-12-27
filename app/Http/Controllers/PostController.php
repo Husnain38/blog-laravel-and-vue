@@ -59,25 +59,25 @@ class PostController extends Controller
     public function store(StorePostRequest $request): JsonResponse
     {
         try{
-            if ($request->hasFile('image')) {
+            if ($request->hasFile('image')){
                 $fileName = Str::random(40) . '.' . $request->file('image')->getClientOriginalExtension();
-                $path = $request->file('image')->storeAs('images', $fileName, 'public');
-            } else {
+                $path     = $request->file('image')->storeAs('images', $fileName, 'public');
+            } else{
                 $path = null;
             }
             $published_at = strtotime($request->published_at);
-            $status = ($published_at > strtotime('now')) ? 0 : 1;
-            $post = Post::create([
-                'user_id' => Auth::Guard('api')->id(),
-                'title' => $request->title,
-                'excerpt' => $request->excerpt,
-                'description' => $request->description,
-                'image' => $path,
-                'keywords' => $request->keywords,
-                'meta_title' => $request->meta_title,
+            $status       = ( $published_at > strtotime('now') )? 0: 1;
+            $post         = Post::create([
+                'user_id'          => Auth::Guard('api')->id(),
+                'title'            => $request->title,
+                'excerpt'          => $request->excerpt,
+                'description'      => $request->description,
+                'image'            => $path,
+                'keywords'         => $request->keywords,
+                'meta_title'       => $request->meta_title,
                 'meta_description' => $request->meta_description,
-                'published_at' => $request->published_at,
-                'status' => $status,
+                'published_at'     => $request->published_at,
+                'status'           => $status,
             ]);
 
             // Clear blog list cache to reflect new post
@@ -131,25 +131,25 @@ class PostController extends Controller
         try{
             $post = Post::findOrFail($id);
 
-            if ($request->hasFile('image')) {
+            if ($request->hasFile('image')){
                 $fileName = Str::random(40) . '.' . $request->file('image')->getClientOriginalExtension();
-                $path = $request->file('image')->storeAs('images', $fileName, 'public');
-            } else {
+                $path     = $request->file('image')->storeAs('images', $fileName, 'public');
+            } else{
                 $path = null;
             }
             $published_at = strtotime($request->published_at);
-            $status = ($published_at > strtotime('now')) ? 0 : 1;
+            $status       = ( $published_at > strtotime('now') )? 0: 1;
             $post->update([
-                'user_id' => Auth::Guard('api')->id(),
-                'title' => $request->title,
-                'excerpt' => $request->excerpt,
-                'description' => $request->description,
-                'image' => $path,
-                'keywords' => $request->keywords,
-                'meta_title' => $request->meta_title,
+                'user_id'          => Auth::Guard('api')->id(),
+                'title'            => $request->title,
+                'excerpt'          => $request->excerpt,
+                'description'      => $request->description,
+                'image'            => $path,
+                'keywords'         => $request->keywords,
+                'meta_title'       => $request->meta_title,
                 'meta_description' => $request->meta_description,
-                'published_at' => $request->published_at,
-                'status' => $status,
+                'published_at'     => $request->published_at,
+                'status'           => $status,
             ]);
 
 

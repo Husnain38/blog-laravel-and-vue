@@ -72,7 +72,7 @@ services:
     # MailCatcher
     mailcatcher:
         image: schickling/mailcatcher
-        ports: ['1025:1025', '1080:1080']
+        ports: [ '1025:1025', '1080:1080' ]
 
     redis:
         image: redis:4.0

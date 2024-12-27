@@ -44,7 +44,7 @@ class UpdatePostRequest extends FormRequest
             'title.string'              => 'The title must be a string.',
             'excerpt.string'            => 'The excerpt must be a string.',
             'description.string'        => 'The description must be a string.',
-            'image.file'              => 'The image must be a file.',
+            'image.file'                => 'The image must be a file.',
             'keywords.string'           => 'The keywords must be a string.',
             'meta_title.required'       => 'The meta title is required.',
             'meta_title.string'         => 'The meta title must be a string.',

@@ -92,7 +92,6 @@ export default {
         isOwnPost(post) {
             let user = localStorage.getItem('user');
             user = user ? JSON.parse(user) : null;
-            console.log(user.id,"user",post)
             return post.user_id === user?.id;
         },
 
@@ -113,7 +112,6 @@ export default {
                 await this.$store.dispatch('fetchBlogPosts', { page: this.page });
                 this.hasMore = this.$store.state.hasMoreBlogs; // Update this based on your API response
             } catch (error) {
-                console.error('Error loading blogs:', error);
             } finally {
                 this.loading = false;
                 this.page++;

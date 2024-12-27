@@ -49,17 +49,20 @@ class Post extends Model
     {
         return $query->where('status', 1);
     }
+
     public function scopeScheduled($query)
     {
         return $query->where('status', 0);
     }
+
     public function getImageAttribute($value)
     {
-        if (!empty($value)) {
+        if (!empty($value)){
             return asset('storage/' . $value);
         }
         return null;
     }
+
     public function comments()
     {
         return $this->hasMany(Comment::class);

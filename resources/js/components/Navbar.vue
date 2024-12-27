@@ -1,7 +1,7 @@
 <template>
     <nav class="d-flex justify-content-between align-items-center">
         <ul>
-            <li v-if="isAuthenticated"><router-link to="/">Blogs</router-link></li>
+            <li ><router-link to="/">Blogs</router-link></li>
             <li v-if="isAuthenticated"><router-link to="/add-post">Add Post</router-link></li>
 
 
@@ -31,8 +31,6 @@ export default {
             this.$store.commit('setToken', token);
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             this.$router.push('/');
-        }else{
-            this.$router.push('/login');
         }
     },
     methods: {

@@ -10,13 +10,13 @@
 composer install --no-interaction
 
 # Run Laravel artisan commands
-#php artisan migrate
+php artisan migrate
 php artisan key:generate
 php artisan cache:clear
 php artisan config:clear
 php artisan route:clear
 php artisan storage:link
-#php artisan passport:install
+php artisan passport:install
 # Bring the primary process (php-fpm) back into the foreground
 #fg %1
 

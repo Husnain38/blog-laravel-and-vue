@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Http\Requests\UpdateCommentRequest;
 use App\Http\Requests\StoreCommentRequest;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use App\Models\Comment;
 use Exception;
@@ -23,10 +24,11 @@ class CommentController extends Controller
         try{
             $comment = Comment::create([
                 'post_id' => $postId,
-                'user_id' => auth()->id(),
+                'user_id' => Auth::guard('api')->id(),
                 'content' => $request->comment,
             ]);
             Cache::tags('posts')->flush();
+            Cache::flush();
             return response()->json([
                 'data'    => $comment,
                 'message' => ''
